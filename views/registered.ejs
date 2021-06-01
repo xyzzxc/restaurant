@@ -1,0 +1,26 @@
+<%- include('head') %>
+<%- include('noextend') %>
+<%- include('logout') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <form method="POST">
+    <label for="email" class="form-label">電子郵件 &ensp; Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+    <br>
+    <label for="password" class="form-label">密碼</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+    <br>
+    <label for="name" class="form-label">姓名</label>
+    <input type="text" class="form-control" id="name" name="name" maxlength="6" placeholder="最多六個字" required>
+    <br>
+    <label for="phone" class="form-label">手機</label>
+    <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" placeholder="xxxx-xxx-xxx" required title="xxxx-xxx-xxx">
+    <br>
+    <div class="text-end">
+      <input type="submit" class="btn btn-primary">
+    </div>                
+  </form>
+  <br>
+</div>
+      
+<%- include('footer') %>

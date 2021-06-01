@@ -1,0 +1,51 @@
+<%- include('head') %>
+<%- include('noextend') %>
+<% if (name) { %>
+    <%- include('logined') %>
+<% } else { %>
+    <%- include('logout') %>
+<% } %> 
+
+<div uk-lightbox>
+    <a href="/images/seats.jpg" data-alt="Image">
+        <div class="uk-text-center">
+            <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                <img class="uk-transition-scale-up uk-transition-opaque" src="/images/seats.jpg" alt="">
+            </div>
+        </div>  
+    </a>
+</div>
+
+<div uk-filter="target: .js-filter">
+
+    <ul class="uk-tab">
+        <li class="uk-active" uk-filter-control><a href="#">全部</a></li>
+        <li uk-filter-control="[data-color='white']"><a href="#">空位</a></li>
+        <li uk-filter-control="[data-color='blue']"><a href="#">有人了</a></li>
+    </ul>
+
+    <ul class="js-filter uk-child-width-1-2 uk-child-width-1-4@m uk-text-center" uk-grid>
+        <% seats.forEach((s,i) => { %>
+            <% if(s.time){ %>
+                <li data-color="blue">
+                    <div class="uk-card uk-card-primary uk-card-body">
+                        B<%= i+1 %> 
+                        <br>
+                        <%= s.time %> 
+                    </div>
+                </li>
+            <% } else { %>  
+                <li data-color="white">
+                    <div class="uk-card uk-card-default uk-card-body">
+                        B<%= i+1 %> 
+                        <br>
+                        空位
+                    </div>
+                </li>
+            <% } %> 
+        <% }); %> 
+    </ul>
+
+</div>
+      
+<%- include('footer') %>

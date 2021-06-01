@@ -1,0 +1,21 @@
+<%- include('head') %>
+<%- include('noextend') %>
+<%- include('logout') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <form method="POST">
+    <label for="email" class="form-label">電子郵件 &ensp; Email</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+    <br>
+    <label for="password" class="form-label">密碼</label>
+    <input type="password" class="form-control" id="password" name="password" required>
+    <br>
+    <div class="text-end">
+      <input type="submit" class="btn btn-primary" value="登入">
+      <a href="/sign/forget" class="btn btn-outline-success">忘記密碼</a>
+    </div>                
+  </form>
+  <br>
+</div>
+      
+<%- include('footer') %>

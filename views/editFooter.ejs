@@ -1,0 +1,26 @@
+<%- include('head') %>
+<%- include('noextend') %>
+<%- include('logined') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <form method="POST">
+    <label for="phone" class="form-label">電話</label>
+    <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" placeholder="xxxx-xxx-xxx" required title="xxxx-xxx-xxx" value="<%= footer.phone %>">
+    <br>
+    <label for="address" class="form-label">地址</label>
+    <input type="text" class="form-control" id="address" name="address" required value="<%= footer.address %>">
+    <br>
+    <label for="fb" class="form-label">fb 網址</label>
+    <input type="text" class="form-control" id="fb" name="fb" required value="<%= footer.fb %>">
+    <br>
+    <label for="ig" class="form-label">ig 網址</label>
+    <input type="text" class="form-control" id="ig" name="ig" required value="<%= footer.ig %>">
+    <br>
+    <div class="text-end">
+      <input type="submit" class="btn btn-primary">
+    </div>                
+  </form>
+  <br>
+</div>
+      
+<%- include('footer') %>

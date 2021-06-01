@@ -1,0 +1,90 @@
+<%- include('head') %>
+<%- include('forWatch') %>
+<%- include('logined') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <ul class="uk-tab" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+    <% status.forEach(s => { %>
+        <li><a href="#"><%= s.status %> </a></li>
+    <% }); %> 
+  </ul>
+  <ul class="uk-switcher uk-margin">
+    <% status.forEach(s => { %>
+      <li>
+        <% shows.forEach(show => { %>
+          <% if(show.order.status_id==s.status_id){ %> 
+            <div class="card">
+              <h5 class="card-header">
+                  <div class="row">
+                    <div class="col-9" id="title-<%= show.order.order_id %>">
+                      <%= show.order.name %> &ensp;
+                      電話：<%= show.order.phone %> &ensp;
+                      取餐時間：<%= show.order.time %> &ensp;
+                      <%= show.order.status %> &ensp;
+                    </div>
+                    <div class="text-end col">
+                      <% if (type==2) { %>
+                        <% if(show.order.time > date && show.order.status_id==1){ %> 
+                          <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick='Del("<%= show.order.order_id %>")'>
+                            X
+                          </button>
+                        <% } %> 
+                      <% }else{ %> 
+                        <select class="form-select col-md-6" aria-label="Default select example" onchange='Status("<%= show.order.order_id %>")' id="status-<%= show.order.order_id %>">
+                          <% status.forEach(ss => {%>
+                            <option value="<%= ss.status_id %>" <% if(show.order.status_id==ss.status_id){ %> <%= 'selected' %> <% } %>><%= ss.status %></option>
+                          <% }); %> 
+                        </select>
+                      <% } %> 
+                    </div>
+                  </div>
+                  
+              </h5>
+              <div class="card-body">
+                <h5 class="card-title" id="content-<%= show.order.order_id %>">
+                  <% var total=0 %>
+                  <% show.details.forEach(detail => { %>
+                      <div class="uk-grid-small" uk-grid>
+                          <div class="uk-width-expand" uk-leader="fill: -"><%= detail.name+' * '+detail.q %></div>
+                          <div>
+                            $<%= detail.cost %>
+                          </div>
+                      </div>
+                      <% total+=detail.cost %> 
+                  <% }); %> 
+                </h5>
+                <div class="text-end">
+                  <h5 class="card-title">總計：$<%= total %> </h5>
+                  <% if(type==2 && show.order.time > date && show.order.status_id==1){ %>   
+                    <br>
+                    <a href="/editOrder/edit/<%= show.order.order_id %> " class="btn btn-outline-success">修改</a>
+                  <% } %> 
+                </div>
+              </div>
+          </div>
+          <% } %> 
+        <% }); %> 
+      </li>
+    <% }); %>
+  </ul>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">確定要刪除，將無法回復</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="mytitle">
+        
+      </div>
+      <div class="modal-footer">
+        <a href="" class="btn btn-danger" id="delete">刪除</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+      
+<%- include('footer') %>

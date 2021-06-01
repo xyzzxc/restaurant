@@ -1,0 +1,68 @@
+<%- include('head') %>
+<%- include('forIndex') %>
+<% if (name) { %>
+    <%- include('logined') %>
+<% } else { %>
+    <%- include('logout') %>
+<% } %> 
+
+<div class="text-center">
+    <% if (type==1) { %>
+        <br>
+        <a href="/information/newMenu" class="btn btn-outline-success">新增菜單</a> 
+     <% } else if(type==2) { %>
+        <br>
+         <a href="/check/checkin" class="btn btn-outline-primary">我要訂位</a>
+         &ensp;
+         <a href="/order/ordering" class="btn btn-outline-success">我要訂餐</a>
+     <% } %>
+</div>
+
+<ul class="uk-tab" uk-switcher="animation: uk-animation-slide-left-medium, uk-animation-slide-right-medium">
+    <% classes.forEach(c => { %>
+        <li><a href="#"><%= c.class %> </a></li>
+    <% }); %> 
+</ul>
+
+<ul class="uk-switcher uk-margin">
+    <% classes.forEach(c => { %>
+        <li>
+            <div class="row">
+                <% menu.forEach((e,i) => { %>
+                    <% if (e.class_id==c.class_id) { %>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card" <% if(!e.enable){ %><%= 'style=background:#bbb;' %><% } %>>
+                                <div uk-lightbox>
+                                    <a href="/menu/<%= e.menu_id + e.subName %>" data-alt="Image">
+                                        <div class="uk-text-center">
+                                            <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                                                <img class="uk-transition-scale-up uk-transition-opaque" src="/menu/<%= e.menu_id + e.subName %>" alt="" style="height: 225px;">
+                                            </div>
+                                        </div>  
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                  <h5 class="card-title"><%= e.name %></h5>
+                                  <p class="card-text" id="content-<%= i %>"><%= e.content %></p>
+                                  <div class="uk-text-right uk-text-bold">
+                                    $<%= e.price %>
+                                    <% if(type==1){ %>
+                                        <br><br>
+                                        <a href="/information/editMenu/<%= e.menu_id %>" class="btn btn-outline-success">修改</a>
+                                        <select class="form-select" id="enable-<%= e.menu_id %>" style="width: auto; display:unset;" onchange='Enable("<%= e.menu_id %>")'>
+                                            <option value="1">開放中</option>
+                                            <option value="0" <% if(!e.enable){ %><%= 'selected' %><% } %>>尚未開放</option>
+                                        </select>
+                                    <% } %> 
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %> 
+                <% }); %> 
+            </div>
+        </li>
+    <% }); %> 
+</ul>
+      
+<%- include('footer') %>

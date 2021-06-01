@@ -1,0 +1,80 @@
+<%- include('head') %>
+<%- include('check') %>
+<%- include('logined') %>
+
+<div uk-lightbox>
+    <a href="/images/seats.jpg" data-alt="Image">
+        <div class="uk-text-center">
+            <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                <img class="uk-transition-scale-up uk-transition-opaque" src="/images/seats.jpg" alt="">
+            </div>
+        </div>  
+    </a>
+</div>
+
+<br><br>
+
+<div class="row">
+    <div class="col-sm-5" style="margin-left: auto; margin-right: auto;">
+        <input type="date" class="form-control" min="<%= min %>" max="<%= max %>" id="date" value="<%= min %>">
+        <br>
+    </div>
+    <div class="col-sm-5" style="margin-left: auto; margin-right: auto;">
+        <input type="time" class="form-control" id="time" value="<%= time %>">
+        <br>
+    </div>
+</div>
+
+<div uk-filter="target: .js-filter">
+
+    <ul class="uk-tab">
+        <li class="uk-active" uk-filter-control><a href="#">全部</a></li>
+        <li uk-filter-control="[data-color='white']"><a href="#">空位</a></li>
+        <li uk-filter-control="[data-color='blue']"><a href="#">有人了</a></li>
+    </ul>
+
+    <ul class="js-filter uk-child-width-1-2 uk-child-width-1-4@m uk-text-center" uk-grid>
+        <% seats.forEach((s,i) => { %>
+            <% if(s.time){ %>
+                <li data-color="blue">
+                    <% if (s.user_id!=user) { %>
+                        <div class="uk-card uk-card-primary uk-card-body">
+                            B<%= i+1 %>
+                            <br>
+                            <%= s.time %> 
+                        </div>                        
+                    <% } else { %>
+                        <div class="uk-text-center">
+                            <a href="/check/checkout">
+                                <div class="uk-transition-toggle" tabindex="0">
+                                    <div class="uk-transition-scale-up uk-transition-opaque uk-card uk-card-secondary uk-card-body" style="width: 100%;">
+                                        B<%= i+1 %>
+                                        <br>
+                                        <%= s.time %>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <% } %> 
+                </li>
+            <% } else { %>  
+                <li data-color="white">
+                    <div class="uk-text-center">
+                        <a href="#" id="none-<%= i+1 %>" onclick='Checkin("none-<%= i+1 %>","<%= i+1 %>")'>
+                            <div class="uk-transition-toggle" tabindex="0">
+                                <div class="uk-transition-scale-up uk-transition-opaque uk-card uk-card-default uk-card-body" style="width: 100%;">
+                                    B<%= i+1 %>
+                                    <br>
+                                    空位
+                                </div>
+                            </div>
+                        </a>
+                    </div>  
+                </li>
+            <% } %> 
+        <% }); %> 
+    </ul>
+
+</div>
+      
+<%- include('footer') %>

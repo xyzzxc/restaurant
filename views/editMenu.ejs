@@ -1,0 +1,33 @@
+<%- include('head') %>
+<%- include('noextend') %>
+<%- include('logined') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <form method="POST" enctype="multipart/form-data">
+    <label for="classes" class="form-label">類別</label>
+    <select class="form-select" name="classes" id="classes">
+      <% classes.forEach(c => { %>
+        <option value="<%= c.class_id %>" <% if(menu.class_id==c.class_id){ %> <%= 'selected' %>  <% } %>><%= c.class %></option>        
+      <% }); %> 
+    </select>
+    <br>
+    <label for="name" class="form-label">菜名</label>
+    <input type="text" class="form-control" id="name" name="name" required value="<%= menu.name %>">
+    <br>
+    <label for="photo" class="form-label">上傳圖片(覆蓋原圖，選填)</label>
+    <input type="file" class="form-control" id="photo" name="photo">
+    <br>
+    <label for="content" class="form-label">解說</label>
+    <textarea class="form-control" name="content" id="content" rows="3"><%= menu.content %></textarea>
+    <br>
+    <label for="price" class="form-label">價格</label>
+    <input type="number" class="form-control" id="price" name="price" min="0" required value="<%= menu.price %>">
+    <br>
+    <div class="text-end">
+      <input type="submit" class="btn btn-primary">
+    </div>                
+  </form>
+  <br>
+</div>
+      
+<%- include('footer') %>

@@ -1,0 +1,114 @@
+<%- include('head') %>
+<%- include('forEditOrder') %>
+<%- include('logined') %>
+
+<div class="col-md-8" style="margin-left: auto; margin-right: auto;">
+  <form action="/editOrder/newDetail/<%= orderID %>" method="POST">
+    <input type="hidden" name="orderID" id="orderID" value="<%= orderID %>">
+    <div class="row">
+      <div class="col">
+        <label for="classes" class="form-label">類別</label>
+        <select class="form-select col-md-6" aria-label="Default select example" onchange="Classes()" id="classes">
+          <option value="">全部</option>
+          <% classes.forEach(c => { %>
+            <option value="/<%= c.class_id %>" <% if(classing==c.class_id){ %> <%= 'selected' %>  <% } %>><%= c.class %></option>        
+          <% }); %> 
+        </select>
+      </div>
+      <div class="col">
+        <label for="menu" class="form-label">菜單</label>
+        <select class="form-select col-md-6" aria-label="Default select example" onchange="Menu()" id="menu">
+          <% menu.forEach(m => { %>
+            <option value="<%= m.subName %>" id="<%= m.menu_id %>"><%= m.name %></option>        
+          <% }); %> 
+        </select>
+        <select id="detail" hidden>
+          <% menu.forEach(m => { %>
+            <option value="<%= m.price %>"><%= m.content %></option>        
+          <% }); %> 
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div uk-lightbox>
+          <a href="" data-alt="Image" id="Ia">
+              <div class="uk-text-center">
+                  <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+                      <img class="uk-transition-scale-up uk-transition-opaque" src="" alt="" style="height: 250px;" id="image">
+                  </div>
+              </div>  
+          </a>
+      </div>
+      <div class="card-body">
+          <h5 class="card-title" id="menuName"></h5>
+          <p class="card-text" id="content"></p>
+          <div class="uk-text-right uk-text-bold">
+            <div id="price"></div>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <input type="number" class="form-control" min="1" value="1" onchange="Num()" id="num">
+      </div>
+      <h3 class="col text-end" id="cost"></h3>
+      <input type="hidden" id="newNum" name="newNum">
+      <input type="hidden" id="newMenu" name="newMenu">
+    </div>
+    <br>
+    <div class="text-end">
+      <input type="submit" class="btn btn-outline-success" value="追加">
+    </div>
+  </form>
+  <br>
+  <% var total=0 %> 
+  <% order_details.forEach(o => { %>
+    <div class="uk-grid-small" uk-grid>
+      <div class="uk-width-expand" uk-leader="fill: -"><%= o.name+' * '+o.q %></div>
+      <div>
+        $<%= o.cost %> &ensp;&ensp;
+        <a href="/editOrder/delDetail/<%= orderID %>/<%= o.menu_id %>" class="btn btn-outline-danger">刪除</a>
+      </div>
+    </div>
+    <% total+=o.cost %> 
+  <% }); %> 
+  <br>
+  <h3 class="text-end">總計：$<%= total %></h3>
+  <br>
+  <form action="/editOrder/time/<%= orderID %> " method="POST">
+    <div class="row">
+      <div class="col-9">
+        <div class="row">
+          <input type="date" class="form-control col" min="<%= min %>" max="<%= max %>" value="<%= min %>" name="date"> &ensp;
+          <input type="time" class="form-control col" value="<%= time %>" name="time">
+        </div>
+      </div>
+      <div class="text-end col">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          修改時間
+        </button>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">確定要送出</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            若距離取餐時間小於半小時，將無法修改
+          </div>
+          <div class="modal-footer">
+            <input type="submit" href="/order/newOrder" class="btn btn-primary" value="是">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">否</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br>
+</div>
+      
+<%- include('footer') %>
